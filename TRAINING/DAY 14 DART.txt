@@ -1,0 +1,333 @@
+1.Extension methods
+2.Inheritance
+3.Constructor chaining
+4.Types of Inheritence
+5.Polymorphism
+
+
+EXTENSION METHODS
+
+
+Extension methods let you add new methods, getters, or setters to existing types (classes), including those you didn't define (like String,Set,int,List,Map)
+They don’t modify the original class — just let you “pretend” those new methods are part of it.
+
+Why Use Extension Methods?
+
+-To add reusable behavior to types (including built-in ones).
+-To keep code clean without creating helper classes or utility functions.
+-To improve readability (fluent APIs, chaining, etc.).
+
+
+SYNTAX:
+
+extension <extensionName> on <className>
+{
+	<returntype> method_name(parameters)
+	{
+		statements;
+	}
+}
+
+
+EXAMPLE:
+
+class Student
+{
+    String? name,std;
+    Student(this.name,this.std);
+}
+class Student2
+{
+    String? name,std;
+    Student2(this.name,this.std);
+}
+extension DISPLAY on Student   
+{
+    void display()  //display() belongs to Student now
+    {
+        print("$name $std"); //Student class instance variables name and std can be accessed
+    }
+}
+//extension DISPLAY on Student,Student2 -ERROR, We cannot use extension for multiple classes
+//extension DISPLAY on Student2 - ERROR: extensionName DISPLAY exists already. Extension names must be unique
+extension Display on Student2
+{
+    void display() 
+    {
+        print("$name $std"); 
+    }
+}
+extension on Student  //Extension name is not a must
+{
+    void displayAgain()
+    {
+        print("$name $std");
+    }
+}
+void main()
+{
+    Student2 st=Student2("Kavya","2");
+    st.display();
+   // st.displayAgain();
+}
+
+OUTPUT:
+
+Kavya 2
+
+
+2.INHERTITANCE:
+
+The properties and methods of one class can be inherited by another class.
+The class from which it is derived, it is known as "Super class / Parent Class"
+The class which is derived, it is known as "Sub class / Daughter Class"
+"extends" keyword is used for inheritance.
+
+EXAMPLE:
+
+class Parent
+{
+    String? name;
+    double? Salary;
+
+    void show(String name,double Salary)
+    {
+        this.name=name;
+        this.Salary=Salary;
+        print("Parent name is $name and they earn $Salary");
+    }
+}
+class Child extends Parent
+{
+    Child() //Child can access the name and Salary of Parent
+    {
+        name="Kavya";
+        Salary=90000;
+    }
+    void show2()
+    {
+        print("Child is $name earns $Salary");
+    }
+}
+
+void main()
+{
+    Child obj=Child();
+    obj.show2(); //calls child method
+    obj.show("Radha",100000); //calls method in parent
+    print(obj.name); //Radha
+    print(obj.Salary); //100000 -Overriden value
+}
+
+
+
+CONSTRUCTOR CHAINING:
+
+Once you instantiate the daughter class, it will implicitly invoke the parent class default constructor.
+
+class Parent
+{
+    Parent()
+    {
+        print("I am the Parent");
+    }
+}
+class Daughter extends Parent
+{
+    Daughter()
+    {
+        print("I am their child");
+    }
+}
+class grandDaughter extends Daughter
+{
+    grandDaughter()
+    {
+        print("I am grand daughter");
+    }
+}
+void main()
+{
+    grandDaughter d=grandDaughter(); //Parent default constructor, Daughter default constructor are called automatically with grandDaughter's.
+    //This is known as CONSTRUCTOR CHAINING
+}
+
+OUTPUT:
+
+
+I am the Parent
+I am their child
+I am grand daughter
+
+
+super keyword:
+
+Parent class default constructors are invoked implicitly, but what if parent class parameterized constructor? Then, use super keyword.
+
+EXAMPLE:
+
+class Teacher
+{
+    String? school;
+    Teacher(String name, String school)
+    {
+        this.school=school;
+        print("$name works in $school");
+    }
+}
+class Student extends Teacher
+{
+    Student(String name):super("Jeevitha","Swamy") //calls the parent class parameterized constructor
+    {
+        print("$name studies in $school");
+    }
+}
+void main()
+{
+    Student s=Student("Kavya");
+}
+
+OUTPUT:
+
+Jeevitha works in Swamy
+Kavya studies in Swamy
+
+
+TYPES OF INHERITANCE in DART:
+1.Single inheritance -> Class A to Class B
+2.Multi-level inheritance -> Class A to Class B to Class C
+3.Hierarchical inheritance -> Class A t0 Class B, Class A to Class C
+
+EXAMPLE: Single inheritance
+
+class Animal
+{
+    void sound()
+    {
+        print("Animal");
+    }
+}
+class Dog extends Animal //SINGLE INHERITANCE 
+{
+    void bark()
+    {
+        print("Dog");
+    }
+}
+void main()
+{
+    Dog d=Dog();
+    d.bark();
+    d.sound();
+}
+
+
+OUTPUT:
+
+Dog
+Animal
+
+
+EXAMPLE: Multi-level inheritance
+
+class Animal
+{
+    void sound()
+    {
+        print("Animal");
+    }
+}
+class Dog extends Animal 
+{
+    void bark()
+    {
+        print("Dog");
+    }
+}
+class Puppy extends Dog //MULTI-LEVEL INHERITANCE
+{
+    void puppy()
+    {
+        print("Puppy");
+    }
+}
+
+void main()
+{
+    Puppy p=Puppy();
+    p.bark();
+    p.sound();
+    p.puppy();
+}
+
+
+OUTPUT:
+
+Dog
+Animal
+Puppy
+
+
+EXAMPLE: Hierarchical inheritance
+
+class Animal
+{
+    void sound()
+    {
+        print("Animal");
+    }
+}
+class Dog extends Animal 
+{
+    void bark()
+    {
+        print("Dog");
+    }
+}
+class Puppy extends Animal //HIERARCHICAL INHERITANCE - Both Dog and Puppy extends Animal
+{
+    void puppy()
+    {
+        print("Puppy");
+    }
+}
+
+void main()
+{
+    Dog d=Dog();
+    d.sound();
+    d.bark();
+    Puppy p=Puppy();
+    p.sound();
+    p.puppy();
+}
+
+OUTPUT:
+
+Animal
+Dog
+Animal
+Puppy
+
+
+3.Polymorphism:
+
+
+Method overriding is Done. But,
+Method overloading is Not possible.
+
+EXAMPLE:
+
+void main()
+{
+    sum(5);
+    sum(5,6); //ERROR - sum() is already defined - doesn't support method overloading or constructor overloading
+}
+void sum(int a)
+{
+
+}
+void sum(int a, int b)
+{
+
+}

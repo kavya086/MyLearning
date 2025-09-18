@@ -1,0 +1,308 @@
+Functions 
+-Types
+-first class citizens
+
+
+FUNCTIONS:
+
+Function is a block of code that can be reused wherever wanted. Basically, it is used for, 
+1.Code Reusability - instead of writing the same code again and again,we can put it in a function and can call the function wherever we want.
+2.Modularity - breaking down complex and large codebase, splitting it into small modules.
+3.Memory efficient
+4.Improved speed
+
+In Dart, there are many ways to use a function since it is a functional programming language.
+
+DIFFERENT TYPES OF Functions IN DART:
+
+1.Functions with optional positional parameters []
+2.Functions with named parameters {}
+3.Functions with named parameters and required keyword.
+3.Arrow functions
+4.Lambda functions
+
+No FINAL methods are there in dart.
+
+
+EXAMPLE:
+
+void withParamters(String? name, int? age)
+{
+    print("$name $age");
+}
+void optional(String? name, [int? age])
+{
+    print("$name $age");
+}
+void named({String? name, int? age}) //named paramters are optional by default -arguments can be given in any order but with the name.
+{
+    print("$name $age");
+}
+void namedwithreq({required String? name, int? age}) //named paramters are optional by default -arguments can be given in any order but with the name.
+{
+    print("$name $age");
+}
+// final void FinalMethod()   --ERROR - No final methods are allowed in dart, only final variables and final classes
+// {
+//     print("This is a final method");
+// }
+void main()
+{
+    withParamters("Kavya",21);
+    optional("Kavya");
+    named(age:21);
+    namedwithreq(age:21, name:"Kavya");
+}
+
+OUTPUT:
+
+Kavya 21
+Kavya null
+null 21
+Kavya 21
+
+EXAMPLE:
+
+void main()
+{
+    var sum=(int x,int y)=>x+y; //Arrow method or LAMBDA METHOD - TYPE 1 - stored in  a variable and called
+    print(sum(2,3));
+
+    sum2(int x,int y)=>x+y;  //TYPE 2  - has got a name
+    print(sum2(3,4));
+}
+
+OUTPUT:
+
+5
+7
+  
+
+
+Dart treats functions as a first-class citizens which means,
+1. we can assign a function to a variable 
+2. pass function as an argument to another function
+3. return function from another function
+
+1.ASSIGNING A FUNCTION to a VARIABLE:
+
+
+EXAMPLE-1:
+
+void main()
+{
+  var a=display; //Now, a is also a function which does the same job of display
+  a();
+}
+void display() 
+{
+  print("DISPLAY");
+}
+
+OUTPUT:
+
+DISPLAY
+
+
+EXAMPLE-2:
+
+void main() {
+  var a = display;    // Assign function reference to 'a'
+  print(a);           // Prints the function's reference, not its output
+}
+
+void display() {
+  return(print("DISPLAY"));  // Prints "DISPLAY" and returns null (print returns void)
+}
+
+OUTPUT:
+
+Closure: () => void from: (...args) => context[property](...args)
+
+EXAMPLE-3:
+
+void main()
+{
+  var a=display;
+  a();
+ }
+void display()
+{
+  return(print("DISPLAY"));
+}
+
+OUTPUT:
+
+DISPLAY
+
+
+2.Passing function as an argument to another function
+
+EXAMPLE-1:
+
+void main()
+{
+  print(displaying(display));   //prints the display function (closure function), not the return value of display, since display remains uncalled.
+}
+String display()
+{
+  return "DISPLAY";
+}
+Function displaying(Function call) 
+{
+  return call; //returns the function  'call'  which is passed as 'display' here
+}
+
+OUTPUT:
+
+Closure: (String) => String from: (...args) => context[property](...args)
+
+EXAMPLE-2:
+
+void main()
+{
+  print(displaying(display)()); //Unlike Example-1, it prints the return statement of display() since it is called properly
+
+  var func=displaying(display); //equivalent to previous statement, the function reference is stored as func and called later.
+  print(func());
+}
+String display()
+{
+  return "DISPLAY";
+}
+Function displaying(Function call)
+{
+  return call;
+}
+
+OUTPUT:
+
+DISPLAY
+DISPLAY
+
+EXAMPLE-3:
+
+void main()
+{
+  print(getName(addMs,"Kavya"));
+  print(getName(addMr,"Suresh"));
+  print(getName(addMrs,"Radha"));
+  
+}
+ addMr(String name)
+{
+  return "Mr $name";
+}
+ addMs(String name)
+{
+  return "Ms $name";
+}
+ addMrs(String name)
+{
+  return "Mrs $name";
+}
+ getName(Function func, String name)
+{
+  return func(name); 
+}
+
+OUTPUT:
+
+Ms Kavya
+Mr Suresh
+Mrs Radha
+
+
+3.RETURN FUNCTION FROM ANOTHER FUNCTION
+
+
+EXAMPLE-1:
+
+void main()
+{
+  var func=outerFunction();
+  print(func());
+}
+outerFunction()
+{
+  innerFunction()
+  {
+    return "Inner Function";
+  }
+  return innerFunction;
+}
+
+OUTPUT:
+
+Inner Function
+
+
+EXAMPLE-2:
+
+void main()
+{
+  var func=outerFunction("FUNCTION");
+  print(func());
+}
+ outerFunction(String name)
+{
+   innerFunction()
+  {
+    return "Inner Function $name";
+  }
+  return innerFunction;
+}
+
+OUTPUT:
+
+Inner Function FUNCTION
+
+
+EXAMPLE-3:
+
+void main()
+{
+  var func=outerFunction("FUNCTION");
+  print(func);
+}
+ outerFunction(String name)
+{
+   innerFunction()
+  {
+    return "Inner Function $name";
+  }
+  return innerFunction();
+}
+
+
+OUTPUT:
+
+Inner Function FUNCTION
+
+
+
+ANONYMOUS or LAMBDA functions:
+
+Functions without names, but need datatype to specified.
+
+EXAMPLE:
+
+void main()
+{
+  var res = func(1,2);
+  print(res);
+}
+var func =(int x,int y)=>(x+y); //LAMBDA FUNCTION or ARROW FUNCTION . The return value of the function is stored in func and get printed.
+//int func(int x, int y)=>(x+y);
+
+
+HIGHER ORDER FUNCTIONS:
+
+A higher-order function is a function that does at least one of the following:
+1.Takes one or more functions as parameters
+2.Returns a function as a result
+
+
+
+
+

@@ -1,0 +1,244 @@
+MIXIN CLASS:
+
+Mixin class is also a type of a class.
+This class cannot extend any other class.
+This class can be extended by any other class, using extends and with keyword.
+
+EXAMPLE:
+
+class Main{
+
+}
+// mixin class Hello extends Main - ERROR mixin classes cannot extend
+// {
+
+// }
+mixin class Student 
+{
+  // Student()  - ERROR - Mixin classes cannot have constructors
+  // {
+  //   print("Student");
+  // }
+  int a=10;
+  void say()
+  {
+    print("Hello");
+  }
+}
+class Teacher with Student
+{
+  void bro()
+  {
+    print("Bro");
+  }
+}
+class Teacher2 extends Student  //Mixin classes can be used with both 'extends' and 'with'
+{
+  void friend()
+  {
+    print("Friend");
+  }
+}
+void main()
+{
+  Teacher2 y=Teacher2();
+  y.say();
+  y.friend();
+}
+
+
+OUTPUT:
+
+Hello
+Friend
+
+
+SOLID PRINCIPLES:
+
+S - Single Responsibility Principle (SRP)  - A class should have only one responsibility ie, only 1 core job
+O - Open closed Principle (OCP)		   - A class should be open to extension, but closed to modification
+L - Liskov Substitution			   - A subclass shouldn’t override or break the expectations set by the parent class. If a subclass throws
+                                             unexpected errors, changes method behavior, or removes features, it violates this principle.
+I - Interface segregation Principle (ISP)  - Use the right interface for right function. Use small and specific interfaces
+D - Dependency Inversion Principle (DIP)   - High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions 					     should not depend on details. Details should depend on abstractions.
+
+EXAMPLE:
+
+//Interface Segregation Principle
+
+abstract class Printer  //Instead of trying to access all the methods from 1 interface, we can create 3 interfaces for each function and use it only when needed. 
+//This is ISP Interface Segregation Principle 
+{
+  void printer();
+  void scanner();
+  void fax();
+}
+
+class InkPrinter implements Printer
+{
+  @override
+  void printer() {
+    print("PRINTER");
+  }
+  @override
+  void scanner() {
+    throw UnsupportedError("Not Supported");
+  }
+
+  @override
+  void fax()
+  {
+    throw UnsupportedError("Not Supported");
+  }  
+}
+
+class LaserPrinter implements Printer
+{
+  @override
+  void printer() {
+    print("PRINTER");
+  }
+ 
+  void scanner() {
+    print("SCANNER");
+  }
+
+  @override
+  void fax()
+  {
+    throw UnsupportedError("Not Supported");
+  }  
+}
+
+class AllInOnePrinter implements Printer
+{
+  @override
+  void printer() {
+    print("PRINTER");
+  }
+  @override
+  void scanner() {
+    print("SCANNER");
+  }
+
+  @override
+  void fax()
+  {
+    print("FAX");
+  }  
+}
+
+void main()
+{
+  Printer i=InkPrinter();
+  i.printer();
+  // p.scanner();
+  // p.fax();
+  Printer l=LaserPrinter();
+  l.printer();
+  l.scanner();
+  // l.fax();
+  Printer a=AllInOnePrinter();
+  a.printer();
+  a.scanner();
+  a.fax();
+}
+
+
+OUTPUT:
+
+PRINTER
+PRINTER
+SCANNER
+PRINTER
+SCANNER
+FAX
+
+
+EXAMPLE:
+
+//Interface Segregation Principle
+
+// abstract class Printer  
+// {
+//   void printer();
+//   void scanner();
+//   void fax();
+// }
+
+abstract class Printer
+{
+  void printer();
+}
+abstract class Scanner
+{
+  void scanner();
+}
+abstract class Fax
+{
+  void fax();
+}
+class InkPrinter implements Printer
+{
+  @override
+  void printer() {
+    print("PRINTER");
+  } 
+}
+
+class LaserPrinter implements Printer,Scanner
+{
+  @override
+  void printer() {
+    print("PRINTER");
+  }
+ 
+  void scanner() {
+    print("SCANNER");
+  }
+
+}
+
+class AllInOnePrinter implements Printer,Scanner,Fax
+{
+  @override
+  void printer() {
+    print("PRINTER");
+  }
+  @override
+  void scanner() {
+    print("SCANNER");
+  }
+
+  @override
+  void fax()
+  {
+    print("FAX");
+  }  
+}
+
+void main()
+{
+  InkPrinter i=InkPrinter();
+  i.printer();
+  // p.scanner();
+  // p.fax();
+  LaserPrinter l=LaserPrinter();
+  l.printer();
+  l.scanner();
+  // l.fax();
+  AllInOnePrinter a=AllInOnePrinter();
+  a.printer();
+  a.scanner();
+  a.fax();
+}
+
+
+OUTPUT:
+
+PRINTER
+PRINTER
+SCANNER
+PRINTER
+SCANNER
+FAX
