@@ -1,0 +1,422 @@
+1.Classes and Objects
+2.Uses of this keyword
+3.Constructors and its types
+
+
+
+CLASSES & OBJECTS
+
+Class is a collection of fields, methods, constructors, getters and setters a single entity. (They are considered as a single datatype)
+Any class member can be accessed only through creating instances of the class(objects).
+
+EXAMPLE:
+
+class Sensus
+{
+  String? name; //instance variables - can only be accessed by using objects
+  int? age;
+  int? birthYear;
+  
+  void myself()   //METHODS
+  {
+    name="Kavya";
+    age=21;
+    birthYear=2004;
+  }
+  
+    void brother()
+  {
+    name="Sri ram";
+    age=26;
+    birthYear=1999;
+  }
+  
+    void dad()
+  {
+    name="Suresh";
+    age=53;
+    birthYear=1972;
+  }
+  
+    void mom()
+  {
+    name="Radha";
+    age=48;
+    birthYear=1977;
+  }
+  
+  display()
+  {
+    print("Name: $name\nAge: $age \nBirth year: $birthYear");
+  }
+  Sensus()  //Constructors
+  {
+    print("WELCOME!");
+  }
+}
+
+main()
+{
+  Sensus S=Sensus(); //equal to Sensus s=new Sensus() - new keyword is optional in Dart
+  S.mom(); //calling method using the object S
+  S.display();
+}
+
+OUTPUT:
+
+WELCOME!
+Name: Radha
+Age: 48 
+Birth year: 1977
+
+
+EXAMPLE:
+
+void main()
+{
+  Student s= Student();
+  print(s);
+}
+class Student
+{
+  Student()
+  {
+    
+  }
+}
+
+OUTPUT:
+
+Instance of 'Student'   //Unlike java, the hash code address of the object is not printed , but "instance of <classname> is printed.
+
+
+
+Usage of "this" keyword:
+
+1."this" is used to distinguish between instance variables and parameters when they have the same name.
+2.Method chaining (returning this from method)
+3.Calling other methods inside the class (this.displayData())
+4.in redirecting constructor
+
+
+EXAMPLE 1:
+
+class Sensus
+{
+  String? name;
+  int? age;
+  int? birthYear;
+  
+  void getData(String nam,int ag,int birtYear)
+  {
+    name=nam; //the value of local variable "nam" is assigned to the instance variable name. We use "this" keyword, when both these variables has same name as shown in the next example.
+
+    age=ag;
+    birthYear=birtYear;
+  }
+  void displayData()
+  {
+    print("Name: $name\nAge: $age\nBirth Year: $birthYear");
+  }
+  
+}
+void main()
+{
+  Sensus s=Sensus();
+  s.getData("Kavya",21,2004);
+  s.displayData();
+}
+
+OUTPUT:
+
+Name: Kavya
+Age: 21
+Birth Year: 2004
+
+
+EXAMPLE 2:
+
+class Sensus
+{
+  String? name;
+  int? age;
+  int? birthYear;
+  
+  void getData(String name,int age,int birthYear)
+  {
+    this.name=name;  //both has same name, "this" refers to current class instance variables
+    this.age=age;
+    this.birthYear=birthYear;
+  }
+  void displayData()
+  {
+    print("Name: $name\nAge: $age\nBirth Year: $birthYear");
+  }
+  
+}
+void main()
+{
+  Sensus s=Sensus();
+  s.getData("Kavya",21,2004);
+  s.displayData();
+}
+
+OUTPUT:
+
+Name: Kavya
+Age: 21
+Birth Year: 2004
+
+
+EXAMPLE 3:
+
+class Sensus
+{
+  String? name;
+  int? age;
+  int? birthYear;
+  
+  void getData(String name,int age,int birthYear)
+  {
+    this.name=name; 
+    this.age=age;
+    this.birthYear=birthYear;
+    this.displayData(); //Method is called here using this keyword.
+ 
+  }
+  void displayData()
+  {
+    print("Name: $name\nAge: $age\nBirth Year: $birthYear");
+  }
+  
+}
+void main()
+{
+  Sensus s=Sensus();
+  s.getData("Kavya",21,2004);
+  //s.displayData();
+}
+
+OUTPUT:
+
+Name: Kavya
+Age: 21
+Birth Year: 2004
+
+EXAMPLE 4: -method chaining using "THIS" keyword.
+
+class Student
+{
+  String? name;
+  int? age;
+  String? city;
+  
+  Student getData(String name,int age,String city) //ClassName need to be specified
+  {
+    this.name=name; 
+    this.age=age;
+    this.city=city;
+    return this; //Object of Student class is returned
+  }
+  
+  Student printData()
+  {
+    print("Name: $name\nAge: $age\nCity: $city");
+    return this;
+  }
+  
+  Student makeDefault()
+  {
+    name="NO NAME";
+    age=0;
+    city="NOT SPECIFIED";
+    return this;
+  }
+  Student addNextLine()
+  {
+    print("");
+    return this;
+  }
+  
+}
+void main()
+{
+  Student obj=Student(); obj.getData("Kavya",21,"Salem").printData().addNextLine().makeDefault().printData().addNextLine().getData("Manoj",27,"CBE").printData().addNextLine().makeDefault().printData();
+}  //can call multiple methods one after the other (chained) in a single statement as each method again returns the object itself.
+
+
+OUTPUT:
+
+Name: Kavya
+Age: 21
+City: Salem
+
+Name: NO NAME
+Age: 0
+City: NOT SPECIFIED
+
+Name: Manoj
+Age: 27
+City: CBE
+
+Name: NO NAME
+Age: 0
+City: NOT SPECIFIED
+
+EXAMPLE 5:
+
+class Student
+{
+  String? name;
+  int? std;
+  Student(this.name,this.std);
+  
+  //The above statement is equivalent to 
+  /*Student(String name,int std)
+  {
+    this.name=name;
+    this.std=std;
+  }*/
+
+  Student.named({this.name,this.std}); //named "this" 
+  void display()
+  {
+    print(name);
+    print(std);
+  }
+}
+void main()
+{
+  Student s=Student("K",4);
+  s.display();
+  Student.named(name:"K",std:4).display();
+ 
+}
+
+OUTPUT:
+
+K
+4
+K
+4	
+
+CONSTRUCTORS:
+
+Constructors are special methods defined in a class which has the name as the class itself.They don't need return types and cannot return any values. They can have parameters. Unlike Java, Only one unnamed constructor can be created. That's why named constructors are used in dart.
+1.Default constructors - with no parameters
+2.Parameterized constructors - with parameters or named parameters
+3.Named constructors - with named methods
+4.Factory constructor - returns another constructor method (especially Private Constructor)
+5.Private constructor - postfixed by ._ , only accessed within the file (Library)
+
+Eg:
+class Main
+{
+  Main()			//default constructor
+	{
+
+	}
+  Main(String name)             //parameterized constructor - ERROR - ONLY ONE UNNAMED CONSTRUCTOR CAN BE CREATED
+       {
+
+       } 	
+}
+
+EXAMPLE:
+
+class Main
+{
+  String? name;
+  factory Main()   //factory constructor - returns another constructor
+  {
+    print("FACTORY constructor");
+    return Main.getName("Hello");
+  }
+//   Main()   //default constructor
+//   {
+//     ERROR- only 1 unnamed constructor is allowed
+//   }
+  Main.getName(this.name) //named constructor
+  {
+    print(name);
+  }
+}
+void main()
+{
+  Main obj= Main();
+  Main.getName("Kavya");
+}
+
+
+OUTPUT:
+
+FACTORY constructor
+Hello
+Kavya
+
+
+EXAMPLE:
+
+class Parameter
+{
+  Parameter(String name, int age)
+  {
+    print("Hello $name. You are $age years old");
+    print("By PARAMETERIZED CONSTRUCTOR\n");
+  }
+  Parameter.named({String? name,int? age})
+  {
+    print("Hello $name. You are $age years old");
+    print("By NAMED PARAMETERIZED CONSTRUCTOR");
+  }
+}
+
+void main()
+{
+  Parameter("Kavya",21);
+  Parameter.named(age:22,name:"Kavya");
+}
+
+OUTPUT:
+
+Hello Kavya. You are 21 years old
+By PARAMETERIZED CONSTRUCTOR
+
+Hello Kavya. You are 22 years old
+By NAMED PARAMETERIZED CONSTRUCTOR
+
+EXAMPLE:
+
+class Private
+{
+  Private._() //can be accessed only within this file
+  {
+      int a=10;
+      String b="hey";
+      print("$a $b");
+  }
+
+  Private._hello(int a) //PRIVATE named constructor
+  {
+      String b="hello";
+      print("$a $b");
+  }
+
+  factory Private() //factory constructor that returns private constructor
+  {
+    return Private._();
+  }
+}
+void main()
+{
+  Private(); //calling factory constructor
+  Private._(); //calling private constructor
+  Private._hello(5); //calling private constructor 
+}
+
+
+OUTPUT:
+
+10 hey
+10 hey
+5 hello

@@ -1,0 +1,23 @@
+Features							Class							Interface
+
+Instantiation					In class, you can create an object.			In an interface, you can't create an object
+
+Variables					Class can have instance variables		    Variables are public static final (constants only).
+
+Methods						Class can have concrete methods			      In an interface, methods are abstract by default
+   
+Inheritance					It supports single inheritance				  Supports multiple inheritance
+
+Constructors					Can have constructors.					     No constructors allowed.
+
+Access Modifiers			Supports private, protected, public, default.		In an interface, all members are public by default
+
+Keyword						Defined using class.						Defined using interface.
+
+Default Methods				    It does not support default methods				It supports default methods(JDK 8+)
+
+Static Methods					Can have static methods.				Supports static methods (JDK 8+)
+
+Private Methods					Can have private methods.				Supports private methods (JDK 9+).
+
+Main Method					Can have main() for execution.			Can have main() (since JDK 8, as static methods are allowed)

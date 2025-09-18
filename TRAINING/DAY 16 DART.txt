@@ -1,0 +1,156 @@
+MIXINS - Continuation
+
+
+Mixins can implement an interface.
+If your mixin needs the class to provide something (a variable, method, or a constructor), then you use abstract members, on, or implements.
+If your mixin is self-contained — meaning it doesn't rely on anything outside itself — then you don’t need any of that.
+
+1.Mixin needs a method -> make it as a abstract method and let the class implement it.
+
+EXAMPLE:
+
+mixin GuitarPlayer { //this mixins needs tuneInstrument() method
+  void tuneInstrument(); // abstract
+
+  void playGuitar() {
+    tuneInstrument();
+  }
+}
+
+class RockStar with GuitarPlayer {
+  @override
+  void tuneInstrument() { //the required method is given
+    print('Tuning guitar...');
+  }
+}
+
+2.Mixin needs a method that is defined in the interface - implement the interface and declare a abstract method again
+
+abstract class Interface
+{
+    void name();
+}
+mixin Mixin implements Interface
+{
+    void name();
+    void callname()
+    {
+        name();
+    }
+}
+class Class with Mixin
+{
+    name()
+    {
+        print("NAME");
+    }
+}
+void main()
+{
+    Class cl=Class();
+    cl.name();
+}
+
+
+3.Mixin needs a function which is already defined the class - use 'on'
+
+
+class Musician {
+  void practice() {
+    print('Practicing...');
+  }
+}
+
+mixin Performer on Musician {
+  void perform() {
+    super.practice();
+  }
+}
+
+class Star extends Musician with Performer {}
+
+void main()
+{
+  Star star = Star();
+  star.perform();
+}
+
+
+
+4.Mixin needs a variable -> use get keyword and let the class define it.
+
+mixin Mixin
+{
+    int get a;    //gets 'a' from the class
+    void displayA()
+    {
+        print(a);    //prints the 'a' it got
+    }
+}
+class mixinclass with Mixin
+{
+    var a=10; //declaring and defining 'a'
+    void displayA()
+    {
+        print(a+a);
+    }
+}
+void main()
+{
+    mixinclass mc=mixinclass();
+    mc.displayA(); //prints 20, class' method
+}
+
+
+MULTIPLE INHERITANCE through MIXINS:
+
+EXAMPLE:
+
+
+abstract class Teacher
+{
+    void name();
+}
+
+mixin Mixin1
+{
+    void name()
+    {
+        print("MIXIN1");
+    }
+}
+mixin Mixin2
+{
+    void name()
+    {
+        print("MIXIN2");
+    }
+}
+
+class Student1 extends Teacher with Mixin1,Mixin2 
+{
+   void display()
+   {
+
+   }
+}
+class Student2 extends Teacher with Mixin2, Mixin1
+{
+    void display()
+    {
+
+    }
+}
+void main()
+{
+    Student1 s1=Student1();
+    s1.name(); //print Mixin2, recent update
+    Student2 s2=Student2();
+    s2.name();  //print Mixin1, recent update
+}
+
+
+OUTPUT:
+
+Mixin2
+Mixin1
